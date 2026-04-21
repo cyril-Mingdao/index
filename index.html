@@ -2693,8 +2693,25 @@
             }
         });
 
+        // 亂數調整選項順序（確保 A/B 出現率各 50%）
+        function randomizeOptions() {
+            questions.forEach(q => {
+                if (q.type === 'question' && q.options && q.options.length === 2) {
+                    if (Math.random() < 0.5) {
+                        // 交換選項順序
+                        var tmp = q.options[0];
+                        q.options[0] = q.options[1];
+                        q.options[1] = tmp;
+                        // 更新正確答案索引
+                        q.correct = q.correct === 0 ? 1 : 0;
+                    }
+                }
+            });
+        }
+
         // 初始化
         window.onload = function() {
+            randomizeOptions();
             generateSlides();
             initSounds();
             updateProgress();
